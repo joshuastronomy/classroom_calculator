@@ -3,6 +3,10 @@
 # we are referring to them as 1-10.
 def assignment_score(grade_hash, student, assignment_num)
 grade_hash[student][assignment_num - 1]
+
+# student = grade_hash[student.to_sym]
+# array_value = assignment_num - 1
+# student[array_value]
 end
 
 # Given a grade_hash and assignment number, return all scores for that
@@ -26,7 +30,7 @@ end
 # TIP: To convert an array like [[:indiana, 90], [:nevada, 80]] to a hash,
 # use .to_h. Also look at Hash#transform_values.
 def averages(grade_hash)
-  grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}.to_h
+  grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
 end
 
 # Return a letter grade for a numerical score.
@@ -52,15 +56,21 @@ end
 # Return a hash of students and their final letter grade, as determined
 # by their average.
 def final_letter_grades(grade_hash)
-  averages(grade_hash).transform_values {|nums| nums = letter_grade(nums)}.to_h
+  averages(grade_hash).transform_values {|nums| nums = letter_grade(nums)}
 end
 
 # Return the average for the entire class.
 def class_average(grade_hash)
-  averages(grade_hash).values.reduce(:+)/10
+  averages(grade_hash).values.reduce(:+)/grade_hash.size
 end
 
 # Return an array of the top `number_of_students` students.
 def top_students(grade_hash, number_of_students)
-  averages(grade_hash).values.sort.reverse
+sorted_hash = averages(grade_hash).sort_by {|name, grade| grade}
+sorted_hash.reverse!
+top_array = []
+sorted_hash.each do |k, v|
+  top_array << k
+end
+top_array.take(number_of_students)
 end
